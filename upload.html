@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Question Paper | PADHLE.com</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamically loaded navigation by main.js -->
+    <header></header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Upload Question Paper</h1>
+            <p>Help your fellow peers by contributing exam papers. All submissions are verified before appearing on the site.</p>
+        </div>
+
+        <div class="form-layout">
+            <form id="upload-paper-form" onsubmit="handlePaperSubmit(event)">
+                <!-- User Metadata -->
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="uploader-name">Your Name <span class="required">*</span></label>
+                        <input type="text" id="uploader-name" class="form-input" placeholder="e.g. Reyan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uploader-email">Your Email <span class="required">*</span></label>
+                        <input type="email" id="uploader-email" class="form-input" placeholder="e.g. xyz@example.com" required>
+                    </div>
+                </div>
+
+                <!-- Paper Category -->
+                <div class="form-group">
+                    <label for="upload-category">Paper Category <span class="required">*</span></label>
+                    <select id="upload-category" class="filter-select" onchange="toggleUploadCategoryFields()" required>
+                        <option value="" disabled selected>Select category...</option>
+                        <option value="university">University Exam</option>
+                        <option value="board">School Board Exam</option>
+                        <option value="competitive">Competitive Entrance Exam</option>
+                    </select>
+                </div>
+
+                <!-- CONDITIONAL DETAILS -->
+                
+                <!-- 1. University Detail Fields -->
+                <div id="upload-univ-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="upload-univ-name">University Name <span class="required">*</span></label>
+                        <select id="upload-univ-name" class="filter-select">
+                            <option value="" disabled selected>Choose University...</option>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="upload-course">Select Course <span class="required">*</span></label>
+                            <select id="upload-course" class="filter-select" onchange="handleUploadCourseChange()">
+                                <option value="" disabled selected>Choose Course...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group" id="upload-branch-group">
+                            <label for="upload-branch">Course Branch <span class="required">*</span></label>
+                            <select id="upload-branch" class="filter-select">
+                                <option value="" disabled selected>Choose Branch...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="upload-academic-year">Academic Year <span class="required">*</span></label>
+                            <select id="upload-academic-year" class="filter-select" onchange="handleUploadYearChange()">
+                                <option value="" disabled selected>Choose Academic Year...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group" id="upload-semester-group" style="display: none;">
+                            <label for="upload-semester">Select Semester <span class="required">*</span></label>
+                            <select id="upload-semester" class="filter-select">
+                                <option value="" disabled selected>Choose Semester...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Board Detail Fields -->
+                <div id="upload-board-fields" style="display: none;">
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="upload-board-name">Board Name <span class="required">*</span></label>
+                            <select id="upload-board-name" class="filter-select">
+                                <option value="" disabled selected>Choose Board...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="upload-class-level">Class Level <span class="required">*</span></label>
+                            <select id="upload-class-level" class="filter-select">
+                                <option value="" disabled selected>Choose Class...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Competitive Detail Fields -->
+                <div id="upload-comp-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="upload-exam-name">Competitive Exam <span class="required">*</span></label>
+                        <select id="upload-exam-name" class="filter-select">
+                            <option value="" disabled selected>Choose Exam...</option>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Shared General Details -->
+                <div class="form-row-2">
+                    <div class="form-group">
+                        <label for="upload-subject">Subject / Paper Name <span class="required">*</span></label>
+                        <input type="text" id="upload-subject" class="form-input" placeholder="e.g. Physics Theory or Data Structures" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="upload-year">Exam Year <span class="required">*</span></label>
+                        <select id="upload-year" class="filter-select" required>
+                            <option value="" disabled selected>Choose Year...</option>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- File Drag and Drop Uploader Area -->
+                <div class="form-group">
+                    <label>Upload PDF Document <span class="required">*</span></label>
+                    <div class="file-upload-wrapper" id="file-drop-area">
+                        <i class="fa-solid fa-cloud-arrow-up file-upload-icon"></i>
+                        <div class="file-upload-text">
+                            Drag & drop your question paper PDF here, or <span>browse files</span>
+                        </div>
+                        <input type="file" id="file-uploader-input" accept=".pdf" onchange="handleFileSelect(event)" required>
+                        <div class="file-uploaded-info" id="file-info-text">
+                            <!-- Populated on file select -->
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fa-solid fa-circle-check"></i> Submit Paper for Admin Review
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Dynamically loaded footer by main.js -->
+    <footer></footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/upload.js"></script>
+</body>
+</html>

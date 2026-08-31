@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Verification Panel | PADHLE.com</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamically loaded navigation by main.js -->
+    <header></header>
+
+    <main class="container">
+        <!-- 1. AUTH LOGIN SECTION (Visible by default until authenticated) -->
+        <div id="admin-login-view" class="admin-login-box">
+            <i class="fa-solid fa-user-shield" style="font-size: 48px; color: var(--accent); margin-bottom: 16px;"></i>
+            <h2>Admin Verification Login</h2>
+            <p>Please enter the passcode to access and moderate pending student paper uploads.</p>
+            <form onsubmit="handleAdminLogin(event)">
+                <div class="form-group" style="text-align: left;">
+                    <label for="admin-passcode">Access Passcode</label>
+                    <input type="password" id="admin-passcode" class="form-input" placeholder="Hint: admin123" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+                    <i class="fa-solid fa-lock-open"></i> Unlock Dashboard
+                </button>
+            </form>
+        </div>
+
+        <!-- 2. DASHBOARD VIEW SECTION (Hidden until login success) -->
+        <div id="admin-dashboard-view" class="admin-panel-content" style="display: none;">
+            <div class="page-header" style="padding-top: 40px; display: flex; justify-content: space-between; align-items: center; text-align: left;">
+                <div>
+                    <h1>Verification Panel</h1>
+                    <p>Review, approve, or reject student question paper uploads.</p>
+                </div>
+                <button class="btn-secondary" onclick="handleAdminLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout Panel
+                </button>
+            </div>
+
+            <!-- Verification Dashboard Stats Cards -->
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-title">Active Database</div>
+                    <div class="stat-number" id="stat-approved-count">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pending Reviews</div>
+                    <div class="stat-number" id="stat-pending-count" style="color: var(--warning);">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Simulated Downloads</div>
+                    <div class="stat-number" id="stat-downloads-count" style="color: var(--success);">0</div>
+                </div>
+            </div>
+
+            <!-- Pending Review List Table -->
+            <h2 class="pending-list-header"><i class="fa-regular fa-clock"></i> Submissions Waiting for Review</h2>
+            
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Uploader Info</th>
+                            <th>Paper Info Details</th>
+                            <th>File Name</th>
+                            <th>Action Controls</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-pending-tbody">
+                        <!-- Populated dynamically by admin.js -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Dynamically loaded footer by main.js -->
+    <footer></footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PADHLE.com | Previous Year Question Papers Portal</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome Icons for modern aesthetic -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamically loaded navigation by main.js -->
+    <header></header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-background"></div>
+            <div class="container">
+                <span class="hero-tagline">Exams Made Simple</span>
+                <h1>Ace Your Exams with Free <br>Previous Year Question Papers</h1>
+                <p>Download university question papers, secondary board examinations, and national competitive entrance papers in high-quality PDF formats. All in one place.</p>
+                
+                <!-- Instant Search Bar -->
+                <div class="search-box-container">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="hero-search-input" class="search-box-input" placeholder="Search subject, board, university, or exam...">
+                    <button class="search-box-btn" onclick="executeHeroSearch()">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Select Your Section</h2>
+                        <p class="section-subtitle">Find exact papers tailored to your educational tier</p>
+                    </div>
+                    <a href="browse.html" class="btn-secondary">View All Sections <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                
+                <div class="grid-3">
+                    <!-- Card 1: Universities -->
+                    <div class="category-card" onclick="navigateToCategory('university')">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-university"></i>
+                        </div>
+                        <h3>Universities</h3>
+                        <p>Access subject papers, branch papers, and semester exams for engineering, science, and arts branches.</p>
+                        <div class="category-badge-list">
+                            <span class="category-badge">DTU</span>
+                            <span class="category-badge">YMCA</span>
+                            <span class="category-badge">B.Tech</span>
+                            <span class="category-badge">B.Sc</span>
+                            <span class="category-badge">B.BA</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Boards -->
+                    <div class="category-card" onclick="navigateToCategory('board')">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-chalkboard-user"></i>
+                        </div>
+                        <h3>School Boards</h3>
+                        <p>Prepare for board exams with past papers for CBSE, ICSE, and various state boards for Class 10 & 12.</p>
+                        <div class="category-badge-list">
+                            <span class="category-badge">CBSE</span>
+                            <span class="category-badge">ICSE</span>
+                            <span class="category-badge">Class 10th</span>
+                            <span class="category-badge">Class 12th</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Competitive Exams -->
+                    <div class="category-card" onclick="navigateToCategory('competitive')">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <h3>Competitive Exams</h3>
+                        <p>Practice with official national-level competitive exam sheets containing answers and solutions.</p>
+                        <div class="category-badge-list">
+                            <span class="category-badge">JEE Main</span>
+                            <span class="category-badge">JEE Advance</span>
+                            <span class="category-badge">NEET</span>
+                            <span class="category-badge">GATE</span>
+                            <span class="category-badge">UPSC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Papers Featured Section -->
+        <section class="featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">Most Downloaded Papers</h2>
+                        <p class="section-subtitle">The papers most requested by fellow students this week</p>
+                    </div>
+                    <a href="browse.html?sort=downloads" class="btn-secondary">See Popular <i class="fa-solid fa-arrow-trend-up"></i></a>
+                </div>
+
+                <div class="featured-grid" id="popular-papers-grid">
+                    <!-- Dynamic rendering by local script below -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Upload CTA Section -->
+        <section class="upload-cta">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Got Question Papers? Share Them!</h2>
+                    <p>Help other students succeed. Upload previous year papers from your class, board, or college. After a quick verification by our moderator, it goes live!</p>
+                    <a href="upload.html" class="btn-primary">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Contribute a Paper Now
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Dynamically loaded footer by main.js -->
+    <footer></footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Hero Search execution logic
+        function executeHeroSearch() {
+            const input = document.getElementById('hero-search-input').value.trim();
+            if (input) {
+                window.location.href = `browse.html?search=${encodeURIComponent(input)}`;
+            } else {
+                showAlert('Please enter a search keyword!', 'warning');
+            }
+        }
+
+        // Add Enter key trigger to search input
+        document.getElementById('hero-search-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executeHeroSearch();
+            }
+        });
+
+        function navigateToCategory(cat) {
+            window.location.href = `browse.html?cat=${cat}`;
+        }
+
+        // Render Popular Papers
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { // wait for localstorage to populate
+                const papers = getApprovedPapers() || [];
+                // Sort by downloads descending, take top 3
+                const popular = [...papers].sort((a, b) => b.downloads - a.downloads).slice(0, 3);
+                
+                const grid = document.getElementById('popular-papers-grid');
+                if (grid && popular.length > 0) {
+                    grid.innerHTML = popular.map(paper => {
+                        let typeTagClass = '';
+                        let typeText = '';
+                        let detailsHtml = '';
+
+                        if (paper.category === 'university') {
+                            typeTagClass = 'tag-university';
+                            typeText = 'University';
+                            detailsHtml = `
+                                <div class="paper-detail-item"><i class="fa-solid fa-graduation-cap"></i> Univ: <span>${paper.university}</span></div>
+                                <div class="paper-detail-item"><i class="fa-solid fa-book-open"></i> Course: <span>${paper.course} (${paper.academicYear} Year)</span></div>
+                                <div class="paper-detail-item"><i class="fa-solid fa-code-branch"></i> Branch: <span>${paper.branch}</span></div>
+                            `;
+                        } else if (paper.category === 'board') {
+                            typeTagClass = 'tag-board';
+                            typeText = `${paper.board} Board`;
+                            detailsHtml = `
+                                <div class="paper-detail-item"><i class="fa-solid fa-school"></i> Class: <span>${paper.classLevel}</span></div>
+                                <div class="paper-detail-item"><i class="fa-solid fa-book"></i> Subject: <span>${paper.subject}</span></div>
+                            `;
+                        } else {
+                            typeTagClass = 'tag-competitive';
+                            typeText = paper.exam;
+                            detailsHtml = `
+                                <div class="paper-detail-item"><i class="fa-solid fa-user-ninja"></i> Exam: <span>${paper.exam}</span></div>
+                                <div class="paper-detail-item"><i class="fa-solid fa-book"></i> Paper: <span>${paper.subject}</span></div>
+                            `;
+                        }
+
+                        return `
+                            <div class="paper-card">
+                                <div class="paper-meta">
+                                    <span class="paper-type-tag ${typeTagClass}">${typeText}</span>
+                                    <span class="paper-year">${paper.year} PYQ</span>
+                                </div>
+                                <h3 class="paper-title">${paper.title}</h3>
+                                <div class="paper-details">
+                                    ${detailsHtml}
+                                    <div class="paper-detail-item"><i class="fa-solid fa-circle-down"></i> Downloads: <span>${paper.downloads}</span></div>
+                                </div>
+                                <div class="paper-actions">
+                                    <button class="btn-secondary" onclick="openPreviewModal('${paper.id}')"><i class="fa-solid fa-eye"></i> View</button>
+                                    <button class="btn-primary" onclick="simulateDownload('${paper.id}')"><i class="fa-solid fa-download"></i> Download</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

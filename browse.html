@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Previous Year Papers | PADHLE.com</title>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Dynamically loaded navigation by main.js -->
+    <header></header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>Find Your Papers</h1>
+            <p>Select your tier, apply filters, and instant-download verified question papers.</p>
+        </div>
+
+        <div class="browse-layout">
+            <!-- Sidebar Filters Panel -->
+            <aside class="filter-panel">
+                <div class="filter-header">
+                    <h3>Filters</h3>
+                    <button class="clear-filters-btn" onclick="resetFilters()">Reset All</button>
+                </div>
+
+                <!-- Text Keyword Filter -->
+                <div class="filter-group">
+                    <label for="filter-search-input">Keyword Search</label>
+                    <input type="text" id="filter-search-input" class="form-input" placeholder="Type Subject or Exam name..." oninput="handleFilterChange()">
+                </div>
+
+                <!-- Category Tabs (Primary Filter) -->
+                <div class="filter-group">
+                    <label>Select Category</label>
+                    <div class="category-selector-tabs">
+                        <button class="category-tab active" id="tab-all" onclick="selectCategoryTab('all')">
+                            <i class="fa-solid fa-border-all"></i> All Categories
+                        </button>
+                        <button class="category-tab" id="tab-university" onclick="selectCategoryTab('university')">
+                            <i class="fa-solid fa-graduation-cap"></i> University
+                        </button>
+                        <button class="category-tab" id="tab-board" onclick="selectCategoryTab('board')">
+                            <i class="fa-solid fa-school"></i> School Boards
+                        </button>
+                        <button class="category-tab" id="tab-competitive" onclick="selectCategoryTab('competitive')">
+                            <i class="fa-solid fa-fire"></i> Competitive
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC CONDITIONAL FILTERS -->
+                
+                <!-- 1. University Filters -->
+                <div id="univ-filters" class="conditional-filter" style="display: none;">
+                    <div class="filter-group">
+                        <label for="univ-select">University</label>
+                        <select id="univ-select" class="filter-select" onchange="handleUniversityChange()">
+                            <option value="">Select University</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group" id="course-filter-group" style="display: none;">
+                        <label for="course-select">Select Course</label>
+                        <select id="course-select" class="filter-select" onchange="handleCourseChange()">
+                            <option value="">Select Course</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group" id="branch-filter-group" style="display: none;">
+                        <label for="branch-select">Select Branch</label>
+                        <select id="branch-select" class="filter-select" onchange="handleBranchChange()">
+                            <option value="">Select Branch</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group" id="academic-year-filter-group" style="display: none;">
+                        <label for="academic-year-select">Academic Year</label>
+                        <select id="academic-year-select" class="filter-select" onchange="handleAcademicYearChange()">
+                            <option value="">Select Year</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group" id="semester-filter-group" style="display: none;">
+                        <label for="semester-select">Select Semester</label>
+                        <select id="semester-select" class="filter-select" onchange="handleSemesterChange()">
+                            <option value="">Select Semester</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group" id="subject-filter-group" style="display: none;">
+                        <label for="subject-select">Select Subject</label>
+                        <select id="subject-select" class="filter-select" onchange="handleFilterChange()">
+                            <option value="">Select Subject</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 2. Board Filters -->
+                <div id="board-filters" class="conditional-filter" style="display: none;">
+                    <div class="filter-group">
+                        <label for="board-select">Select Board</label>
+                        <select id="board-select" class="filter-select" onchange="handleFilterChange()">
+                            <option value="">All Boards</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="class-select">Select Class</label>
+                        <select id="class-select" class="filter-select" onchange="handleFilterChange()">
+                            <option value="">All Classes</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 3. Competitive Filters -->
+                <div id="comp-filters" class="conditional-filter" style="display: none;">
+                    <div class="filter-group">
+                        <label for="exam-select">Competitive Exam</label>
+                        <select id="exam-select" class="filter-select" onchange="handleFilterChange()">
+                            <option value="">All Exams</option>
+                            <!-- Populated by JS -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Common: Year Filter -->
+                <div class="filter-group">
+                    <label for="year-select">Year</label>
+                    <select id="year-select" class="filter-select" onchange="handleFilterChange()">
+                        <option value="">All Years</option>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </aside>
+
+            <!-- Results Listing Grid -->
+            <section class="results-content">
+                <div class="results-header">
+                    <div class="results-count" id="results-count-text">Found 0 papers</div>
+                    
+                    <div class="results-sort">
+                        <label for="sort-select">Sort By</label>
+                        <select id="sort-select" onchange="handleFilterChange()">
+                            <option value="downloads">Most Popular</option>
+                            <option value="year-desc">Year: Newest First</option>
+                            <option value="year-asc">Year: Oldest First</option>
+                            <option value="title">Alphabetical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="featured-grid" id="papers-results-grid">
+                    <!-- Cards will be dynamically rendered here by js/browse.js -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Dynamically loaded footer by main.js -->
+    <footer></footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/browse.js"></script>
+</body>
+</html>
